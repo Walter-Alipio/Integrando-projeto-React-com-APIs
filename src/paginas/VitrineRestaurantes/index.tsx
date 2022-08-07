@@ -5,14 +5,14 @@ import NavBar from '../../componentes/NavBar';
 import Rodape from '../../componentes/Rodape';
 
 function App() {
-  return (
-    <>
-      <NavBar />
-      <Banner />
-      <ListaRestaurantes />
-      <Rodape />
-    </>
-  );
+	return (
+		<>
+			<NavBar />
+			<Banner />
+			<ListaRestaurantes />
+			<Rodape />
+		</>
+	);
 }
 
 export default App;

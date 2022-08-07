@@ -1,4 +1,4 @@
-import IPrato from "./IPrato";
+import IPrato from './IPrato';
 
 export default interface IRestaurante {
   id: number
