@@ -1,4 +1,13 @@
-import { Button, TextField } from '@mui/material';
+import {
+	Box,
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	TextField,
+} from '@mui/material';
 import axios, { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { IPaginacao } from '../../interfaces/IPaginacao';
@@ -17,6 +26,12 @@ const ListaRestaurantes = () => {
 	const [proximaPagina, setProximaPagina] = useState('');
 	const [paginaAnterior, setPaginaAnterior] = useState('');
 	const [busca, setBusca] = useState('');
+	const [ordenar, setOrdenar] = useState('');
+
+	const handleSelectChange = (event: SelectChangeEvent) => {
+		setOrdenar(event.target.value);
+	};
+
 	// o carregarDados recebe opcionalmente as opções de configuração do axios
 	const carregarDados = (url: string, opcoes: AxiosRequestConfig = {}) => {
 		axios
@@ -36,6 +51,7 @@ const ListaRestaurantes = () => {
 		};
 		if (busca) {
 			opcoes.params.search = busca;
+			opcoes.params.ordering = ordenar;
 		}
 		carregarDados('http://0.0.0.0:8000/api/v1/restaurantes/', opcoes);
 	};
@@ -50,7 +66,12 @@ const ListaRestaurantes = () => {
 				Os restaurantes mais <em>bacanas</em>!
 			</h1>
 			{
-				<form onSubmit={Buscar}>
+				<Box
+					component='form'
+					width='fullWidth'
+					onSubmit={Buscar}
+					sx={{ display: 'flex', gap: '1.5rem' }}
+				>
 					<TextField
 						value={busca}
 						onChange={event => setBusca(event.target.value)}
@@ -58,10 +79,29 @@ const ListaRestaurantes = () => {
 						label='Nome do Restaurante'
 						variant='standard'
 					/>
+					<FormControl>
+						<InputLabel id='select-label-ordenacao'>Ordenar</InputLabel>
+						<Select
+							labelId='select-label-ordenacao'
+							id='select-ordenacao'
+							value={ordenar}
+							label='Ordenar'
+							onChange={handleSelectChange}
+							required
+							sx={{ width: '6.5rem' }}
+						>
+							<MenuItem value={''} selected disabled>
+								Escolher
+							</MenuItem>
+							<MenuItem value={'id'}>ID</MenuItem>
+							<MenuItem value={'nome'}>Nome</MenuItem>
+						</Select>
+					</FormControl>
+
 					<Button type='submit' variant='outlined'>
 						Buscar
 					</Button>
-				</form>
+				</Box>
 			}
 			{restaurantes?.map(item => (
 				<Restaurante restaurante={item} key={item.id} />
