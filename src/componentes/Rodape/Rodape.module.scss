@@ -24,6 +24,12 @@
                 border-radius: 50%;
                 color: #363e50;
                 transition: all 0.5s;
+                opacity: 0.5;
+            }
+            
+            i:hover{
+                transform: scale(115%);
+                opacity: 1;
             }
         }
     }
