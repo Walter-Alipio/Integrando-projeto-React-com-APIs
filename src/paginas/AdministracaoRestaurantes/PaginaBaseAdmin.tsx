@@ -8,14 +8,29 @@ import {
 	Toolbar,
 	Paper,
 } from '@mui/material';
-import { Link as RouterLink, Outlet } from 'react-router-dom';
+import { Link as RouterLink, Navigate, Outlet } from 'react-router-dom';
 
-const PaginaBaseAdmin = () => {
+interface IProps {
+	logged: boolean;
+	setLogged: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PaginaBaseAdmin = ({ logged, setLogged }: IProps) => {
+	const handleClick = (
+		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		event.defaultPrevented;
+		setLogged(false);
+		<Navigate to={'/admin'} />;
+	};
 	return (
 		<>
 			<AppBar position='static'>
-				<Container maxWidth='xl'>
-					<Toolbar>
+				<Container
+					maxWidth='xl'
+					sx={{ display: 'flex', justifyContent: 'space-between' }}
+				>
+					<Toolbar sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
 						<Typography variant='h6'>Administração</Typography>
 						<Box sx={{ display: 'flex', flexGrow: 1 }}>
 							<Link component={RouterLink} to='/admin/restaurantes'>
@@ -32,6 +47,13 @@ const PaginaBaseAdmin = () => {
 							</Link>
 						</Box>
 					</Toolbar>
+					{logged ? (
+						<Button color='inherit' onClick={handleClick}>
+							Sair
+						</Button>
+					) : (
+						''
+					)}
 				</Container>
 			</AppBar>
 			<Box>
