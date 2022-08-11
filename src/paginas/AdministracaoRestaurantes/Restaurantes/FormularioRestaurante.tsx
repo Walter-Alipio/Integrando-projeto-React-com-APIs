@@ -3,9 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import http from '../../../http';
 import IRestaurante from '../../../interfaces/IRestaurante';
+import Modal from '../../../componentes/Modal';
 
 const FormularioRestaurante = () => {
 	const [nomeRestaurante, setNomeRestaurante] = useState('');
+	const [mensagem, setMensagem] = useState('');
+	const [statusOk, setStatusOk] = useState(false);
+
 	const parametros = useParams();
 
 	useEffect(() => {
@@ -23,13 +27,21 @@ const FormularioRestaurante = () => {
 				.put(`restaurantes/${parametros.id}/`, {
 					nome: nomeRestaurante,
 				})
-				.then(res => alert(res.status + 'Alterado com sucesso!'));
+				.then(res => {
+					setMensagem('Alterado com sucesso!');
+					setStatusOk(true);
+					console.log(res.status + 'Alterado com sucesso!');
+				});
 		} else {
 			http
 				.post('restaurantes/', {
 					nome: nomeRestaurante,
 				})
-				.then(res => alert(res.status + 'Cadastrado com sucesso!'));
+				.then(res => {
+					setMensagem('Cadastrado com sucesso!');
+					setStatusOk(true);
+					console.log(res.status + 'Cadastrado com sucesso!');
+				});
 		}
 	};
 
@@ -42,6 +54,13 @@ const FormularioRestaurante = () => {
 				flexGrow: 1,
 			}}
 		>
+			{statusOk ? (
+				<Modal setStatusOk={setStatusOk} statusOk={statusOk}>
+					{mensagem}
+				</Modal>
+			) : (
+				''
+			)}
 			<Typography component='h1' variant='h6'>
 				Formulário de Restaurantes
 			</Typography>

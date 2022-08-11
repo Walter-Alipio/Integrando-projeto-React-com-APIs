@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Modal from '../../../componentes/Modal';
 import http from '../../../http';
 import IPrato from '../../../interfaces/IPrato';
 import IRestaurante from '../../../interfaces/IRestaurante';
@@ -21,6 +22,9 @@ const FormularioPrato = () => {
 	const [tag, setTag] = useState('');
 	const [restaurante, setRestaurante] = useState('');
 	const [imagem, setImagem] = useState<File | null>(null);
+
+	const [mensagem, setMensagem] = useState('');
+	const [statusOk, setStatusOk] = useState(false);
 
 	const [tags, setTags] = useState<ITag[]>([]);
 	const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
@@ -84,7 +88,8 @@ const FormularioPrato = () => {
 					setNomePrato('');
 					setRestaurante('');
 					setTag('');
-					alert('Prato alterado com sucesso!');
+					setMensagem('Alterado com sucesso!');
+					setStatusOk(true);
 				})
 				.catch(err => console.log(err));
 		} else {
@@ -103,7 +108,8 @@ const FormularioPrato = () => {
 					setNomePrato('');
 					setRestaurante('');
 					setTag('');
-					alert('Prato cadastrado com sucesso!');
+					setMensagem('Prato cadastrado com sucesso!');
+					setStatusOk(true);
 				})
 				.catch(err => console.log(err));
 		}
@@ -118,6 +124,13 @@ const FormularioPrato = () => {
 				flexGrow: 1,
 			}}
 		>
+			{statusOk ? (
+				<Modal setStatusOk={setStatusOk} statusOk={statusOk}>
+					{mensagem}
+				</Modal>
+			) : (
+				''
+			)}
 			<Typography component='h1' variant='h6'>
 				Formulário de Pratos
 			</Typography>
