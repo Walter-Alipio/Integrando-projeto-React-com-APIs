@@ -31,4 +31,6 @@ Depois, acesse <a href="http://localhost:3000/">http://localhost:3000/</a> no se
 
 ## 📚 Certificado
 
-<img src="https://imgur.com/Bk73DES" alt="Certificado de conclusão" width="100%">
+<p align="center" width="100%">
+  <img src="https://i.imgur.com/Bk73DES.jpeg" alt="Certificado de conclusão">
+</p>
